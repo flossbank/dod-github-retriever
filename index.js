@@ -11,7 +11,11 @@ const kms = new AWS.KMS({ region: 'us-west-2' })
 const docs = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2' })
 
 /*
-- 
+- Pulls the organization from Mongo (or falls back to Flossbanks as default)
+- Generate github access token with the organization installation ID (or Flossbanks)
+- Searches for manifests and resolves all top level deps using @flossbank/registry-resolver 
+- Writes the TLP's to S3
+- Sends off event with the correlationId to dod-registry-resolver
 */
 exports.handler = async (event) => {
   const log = Pino()

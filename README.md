@@ -1,7 +1,5 @@
 # dod-github-retriever
 
-Lambda to retreive 
-
 GitHub Retriever picks up message from Queue and pulls the Organization Record from Mongo using `organizationId`. If no `installationId` is present on the org record, GR pulls the org record for Flossbank and uses its installation ID.
 
 * If the orgId is invalid, the lambda throws and the message ends up in the DLQ after 3 retries.
