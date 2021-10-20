@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "distribute-org-donations",
   "main": "index.js",
+  "config": {
+    "mongodbMemoryServer": {
+      "version": "5.0.3"
+    }
+  },
   "scripts": {
     "lint": "standard --fix",
     "ci-tests": "nyc --reporter=cobertura ava",
@@ -38,7 +43,7 @@
   "devDependencies": {
     "ava": "^3.12.1",
     "husky": "^4.2.5",
-    "mongodb-memory-server": "^6.9.6",
+    "mongodb-memory-server": "^7.5.1",
     "nock": "^13.0.4",
     "nyc": "^15.0.0",
     "pino-pretty": "^4.1.0",
