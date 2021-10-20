@@ -21,6 +21,11 @@ test('getMongoUri decrypts with kms', async (t) => {
   t.true(config.kms.decrypt.calledOnce)
 })
 
+test('getRegistryResolverInputQueueUrl', (t) => {
+  process.env.REGISTRY_RESOLVER_QUEUE_URL = 'abc'
+  t.is(t.context.config.getRegistryResolverInputQueueUrl(), 'abc')
+})
+
 test('getGithubAppConfig decrypts with kms', async (t) => {
   const { config } = t.context
   process.env.GITHUB_APP_PEM = Buffer.from('ghapppem').toString('base64')
