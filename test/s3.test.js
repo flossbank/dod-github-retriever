@@ -38,12 +38,12 @@ test('putTopLevelPackages', async (t) => {
 
   t.deepEqual(t.context.s3.s3.putObject.firstCall.args, [{
     Body: JSON.stringify(extractedDependencies[0].deps),
-    Bucket: 'org_donation_state',
+    Bucket: 'org-donation-state',
     Key: 'asdf/javascript_npm_top_level_packages.json'
   }])
   t.deepEqual(t.context.s3.s3.putObject.secondCall.args, [{
     Body: JSON.stringify(extractedDependencies[1].deps),
-    Bucket: 'org_donation_state',
+    Bucket: 'org-donation-state',
     Key: 'asdf/ruby_rubygems_top_level_packages.json'
   }])
 })
