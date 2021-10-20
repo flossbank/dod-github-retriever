@@ -1,7 +1,7 @@
 {
-  "name": "distribute-org-donations",
+  "name": "org-github-retriever",
   "version": "1.0.0",
-  "description": "distribute-org-donations",
+  "description": "org-github-retriever",
   "main": "index.js",
   "config": {
     "mongodbMemoryServer": {
@@ -31,15 +31,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flossbank/distribute-org-donations.git"
+    "url": "git+https://github.com/flossbank/dod-github-retriever.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/flossbank/distribute-org-donations/issues"
+    "url": "https://github.com/flossbank/dod-github-retriever/issues"
   },
-  "homepage": "https://github.com/flossbank/distribute-org-donations#readme",
+  "homepage": "https://github.com/flossbank/dod-github-retriever#readme",
   "devDependencies": {
     "ava": "^3.12.1",
     "husky": "^4.2.5",
