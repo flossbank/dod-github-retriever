@@ -7,19 +7,14 @@ test.beforeEach((t) => {
     getOrg: sinon.stub().resolves({ name: 'an-ordinary-org', installationId: 'install-me', billingInfo: {} })
   }
   const resolver = {
-    getSupportedManifestPatterns: sinon.stub().resolves(['package.json']),
+    getSupportedManifestPatterns: sinon.stub().returns([
+      { language: 'javascript', registry: 'npm', searchPatterns: ['package.json'] },
+      { language: 'ruby', registry: 'rubygems', searchPatterns: ['Gemfile'] }
+    ]),
     extractDependenciesFromManifests: sinon.stub().returns([{
       language: 'javascript',
       registry: 'npm',
       deps: ['standard', 'js-deep-equals', 'yttrium-server']
-    }, {
-      language: 'php',
-      registry: 'idk',
-      deps: ['some-php-dep']
-    }, {
-      language: 'haskell',
-      registry: 'idk',
-      deps: []
     }])
   }
   const retriever = {
@@ -71,8 +66,16 @@ test('process | success', async (t) => {
   t.true(services.resolver.getSupportedManifestPatterns.calledOnce)
   t.true(services.retriever.getAllManifestsForOrg.calledOnce)
   t.true(services.resolver.extractDependenciesFromManifests.calledOnce)
-  t.true(services.s3.putTopLevelPackages.calledOnce)
   t.true(services.sqs.sendRegistryResolverMessage.calledOnce)
+
+  // confirming that we put TLPs for _all_ supported lang/reg combos, even if we don't have any manifests for those combos
+  t.deepEqual(services.s3.putTopLevelPackages.lastCall.args, [{
+    correlationId: 'asdf',
+    extractedDependencies: [
+      { language: 'javascript', registry: 'npm', deps: ['standard', 'js-deep-equals', 'yttrium-server'] },
+      { language: 'ruby', registry: 'rubygems', deps: [] }
+    ]
+  }])
 })
 
 test('process | success | no installation id on org', async (t) => {
