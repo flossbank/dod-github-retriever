@@ -37,7 +37,7 @@ exports.handler = async (event) => {
   let results
   try {
     results = await Promise.all(
-      event.Records.map(record => Process.process({ record, db, sqs, resolver, retriever, s3, log }))
+      event.Records.map(record => Process.process({ record, db, sqs, resolver, retriever, s3, log, config }))
     )
     if (!results.every(result => result.success)) {
       throw new Error(JSON.stringify(results))
