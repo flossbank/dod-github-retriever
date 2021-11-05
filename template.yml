@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Distributes organization donations to the either their version control packages or to the global ecosystem
+Description: Retrieves an organization's package manifests from GitHub
 Parameters:
   MongoUri:
     Type: AWS::SSM::Parameter::Value<String>
@@ -12,32 +12,34 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Default: '/api/github/app_id'
 Resources:
-  DistributeOrgDonationsDeadLetterQueue:
+  OrgGitHubRetrieverDeadLetterQueue:
     Type: AWS::SQS::Queue
-  DistributeOrgDonationsQueue:
+  OrgGitHubRetrieverQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: distribute-org-donations-input
+      QueueName: org-github-retriever-input
       RedrivePolicy:
-        deadLetterTargetArn: !GetAtt DistributeOrgDonationsDeadLetterQueue.Arn
+        deadLetterTargetArn: !GetAtt OrgGitHubRetrieverDeadLetterQueue.Arn
         maxReceiveCount: 3
       VisibilityTimeout: 960
-  DistributeOrgDonationsFunction:
+  OrgGitHubRetrieverFunction:
     Type: AWS::Serverless::Function
     Properties:
       Timeout: 900
+      MemorySize: 2048
       Handler: index.handler
       Runtime: nodejs12.x
       CodeUri: ./
       Events:
-        DistributeOrgDonationsEvent:
+        OrgGitHubRetrieverEvent:
           Type: SQS
           Properties:
-            Queue: !GetAtt DistributeOrgDonationsQueue.Arn
+            Queue: !GetAtt OrgGitHubRetrieverQueue.Arn
             BatchSize: 1
       Policies:
         - AmazonSQSFullAccess
         - AmazonDynamoDBFullAccess
+        - AmazonS3FullAccess
         - Statement:
           - Effect: Allow
             Action:

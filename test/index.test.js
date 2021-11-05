@@ -2,12 +2,10 @@ const test = require('ava')
 const sinon = require('sinon')
 const Db = require('../lib/mongo')
 const Retriever = require('../lib/github')
-const Config = require('../lib/config')
 const Process = require('../lib/process')
 const index = require('../')
 
 test.before(() => {
-  sinon.stub(Config.prototype, 'getCompensationEpsilon')
   sinon.stub(Retriever.prototype, 'init').resolves()
   sinon.stub(Db.prototype, 'connect')
   sinon.stub(Db.prototype, 'close')
@@ -15,7 +13,6 @@ test.before(() => {
 })
 
 test.afterEach(() => {
-  Config.prototype.getCompensationEpsilon.reset()
   Db.prototype.connect.reset()
   Db.prototype.close.reset()
   Process.process.reset()
