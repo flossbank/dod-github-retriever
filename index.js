@@ -22,7 +22,7 @@ const awsS3 = new AWS.S3({ region: 'us-west-2' })
 exports.handler = async (event) => {
   const log = Pino()
   const config = new Config({ log, kms })
-  const s3 = new S3({ log, s3: awsS3 })
+  const s3 = new S3({ log, config, s3: awsS3 })
   const sqs = new SQS({ config, sqs: awsSqs })
 
   const retriever = new GitHub({ log, config })

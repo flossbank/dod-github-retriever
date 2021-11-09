@@ -26,6 +26,11 @@ test('getRegistryResolverInputQueueUrl', (t) => {
   t.is(t.context.config.getRegistryResolverInputQueueUrl(), 'abc')
 })
 
+test('getBucketName', (t) => {
+  process.env.ORG_DONATION_STATE_BUCKET = 'abc'
+  t.is(t.context.config.getBucketName(), 'abc')
+})
+
 test('getGithubAppConfig decrypts with kms', async (t) => {
   const { config } = t.context
   process.env.GITHUB_APP_PEM = Buffer.from('ghapppem').toString('base64')

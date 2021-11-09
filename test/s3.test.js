@@ -9,7 +9,10 @@ test.beforeEach((t) => {
         promise: sinon.stub()
       })
     },
-    log: {}
+    log: {},
+    config: {
+      getBucketName: sinon.stub().returns('org-donation-state')
+    }
   })
 })
 
